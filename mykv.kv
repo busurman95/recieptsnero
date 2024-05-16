@@ -1,0 +1,290 @@
+<IngredientButton>
+    size_hint: (1, None)
+    font_size: sp(15)
+    md_bg_color: (240 / 255, 240 / 255, 240 / 255, 1)
+    theme_text_color: "Custom"
+    text_color: (128 / 255, 128 / 255, 128 / 255, 1)
+    on_release:
+        root.click()
+
+<BottomCard>
+    orientation: "vertical"
+    padding: 20
+    spacing: 15
+    size_hint: 0.5, None
+    height: self.minimum_height
+    width: root.width
+
+<ReceiptCard>
+
+    orientation: "vertical"
+    padding: 60
+    spacing: 15
+    size_hint: 0.5, None
+    height: self.minimum_height
+    width: root.width
+    elevation: 7
+    md_bg_color: (250 / 255, 250 / 255, 250 / 255, 1)
+    ripple_behavior: True
+    on_release:
+        root.click()
+        root.parent.parent.parent.parent.parent.manager.current = 'full_receipt'
+        root.parent.parent.parent.parent.parent.manager.transition.direction = 'down'
+
+#    RelativeLayout:
+#        FitImage:
+#            id: img
+
+    MDLabel:
+        size_hint: (1, None)
+        font_size: sp(15)
+        font_style: 'Subtitle1'
+
+    MDLabel:
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        adaptive_height: True
+        size_hint: (1, None)
+        font_style: 'Caption'
+
+
+
+<MainScreen>:
+    id:ms
+    FloatLayout:
+        padding: 50
+        spacing: 50
+
+        Label:
+            font_size: sp(25)
+            color: (0/255, 0/255, 0/255, 1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            text_size: self.width, None
+            size_hint: 0.8, None
+            halign: 'center'
+            valign: 'middle'
+            text: 'Вкусняхи: простые рецепты для общаги'
+
+
+        MDFillRoundFlatButton:
+            id: start
+            pos_hint:{'center_x':0.5, 'center_y':0.5}
+            size_hint: 0.5, 0.1
+            text: 'Готовим!'
+            font_size: sp(20)
+            md_bg_color: (250/255, 250/255, 180/255, 1)
+            theme_text_color: "Custom"
+            text_color:  1,0,0,1
+            on_release:
+                root.manager.current = 'ingredients'
+                root.manager.transition.direction = 'left'
+
+<Ingredients>:
+    id:ing
+    FloatLayout:
+        MDTextField:
+            id: sf
+            icon_left: "magnify"
+            hint_text: 'Поиск продуктов'
+            helper_text: "Такого продукта нет!"
+            helper_text_mode: "on_error"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.94}
+            size_hint_x: 0.75
+            text_color_focus: "black"
+            line_color_focus: "black"
+            hint_text_color_focus: "black"
+            helper_text_color_focus: "black"
+            icon_left_color_focus: "black"
+        BoxLayout:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.52}
+            size_hint: 0.8, 1
+            ScrollView:
+                id:sv1
+                do_scroll_x: False
+                do_scroll_y: True
+                pos_hint: {'center_x': 0.1, 'center_y': 0.4}
+                size_hint_y: 0.66
+                always_overscroll: False
+                Label:
+                    color: (0/255, 0/255, 0/255, 1)
+                    id:checklist
+                    font_size: sp(15)
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    size_hint: 1, None
+                    text: 'Продукты:'
+            ScrollView:
+                id:sv2
+                bar_margin: -34
+                do_scroll_x: False
+                do_scroll_y: True
+                pos_hint: {'center_x': 0.8, 'center_y': 0.4}
+                size_hint_y: 0.66
+
+                GridLayout:
+                    id:gd
+                    spacing: 40
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+
+        Label:
+            color: (0/255, 0/255, 0/255, 1)
+            font_size: sp(25)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            text_size: self.width, None
+            size_hint: 0.8, None
+            halign: 'center'
+            valign: 'middle'
+            text: 'Выберите продукты'
+
+        BottomCard:
+            elevation: 5
+            radius: 0
+            pos_hint:{'center_x':0.5, 'center_y':0.03}
+            size_hint: 1, 0.12
+
+        MDFillRoundFlatButton:
+            font_size: sp(15)
+            size_hint: 0.5, 0.06
+            pos_hint:{'center_x':0.5, 'center_y':0.045}
+            text: 'Поиск'
+            id:bt1
+            md_bg_color: (1, 0, 0, 1)
+            theme_text_color: "Custom"
+            text_color:  1,1,1,1
+            font_style: 'Button'
+            on_release:
+                root.press_search()
+                root.manager.current = 'receipts'
+                root.manager.transition.direction = 'left'
+
+
+<Receipts>:
+    id:receipt_id
+    FloatLayout:
+        MDTextField:
+            id: sf1
+            icon_left: "magnify"
+            hint_text: 'Поиск рецептов'
+            helper_text: "Такого рецепта нет!"
+            helper_text_mode: "on_error"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.94}
+            size_hint_x: 0.75
+            text_color_focus: "black"
+            line_color_focus: "black"
+            hint_text_color_focus: "black"
+            helper_text_color_focus: "black"
+            icon_left_color_focus: "black"
+        BoxLayout:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.52}
+            size_hint: 0.9, 1
+            ScrollView:
+                id:sv3
+                bar_margin: -15
+                do_scroll_x: False
+                do_scroll_y: True
+                pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                size_hint_y: 0.66
+                MDGridLayout:
+                    padding: 40
+                    spacing: 30
+                    id:GL_P
+                    cols: 1
+                    adaptive_height: True
+
+        Label:
+            color: (0/255, 0/255, 0/255, 1)
+            font_size: sp(25)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            text_size: root.width-50, None
+            size_hint: None, None
+            size: self.texture_size
+            halign: 'center'
+            valign: 'middle'
+            text: 'Выберите рецепт'
+
+        BottomCard:
+            elevation: 5
+            radius: 0
+            pos_hint:{'center_x':0.5, 'center_y':0.03}
+            size_hint: 1, 0.12
+
+        MDFillRoundFlatButton:
+            id:back
+            font_size: sp(15)
+            size_hint: 0.5, 0.06
+            pos_hint:{'center_x':0.5, 'center_y':0.045}
+            text: 'Изменить продукты'
+            md_bg_color: (250/255, 250/255, 180/255, 1)
+            theme_text_color: "Custom"
+            text_color:  1,0,0,1
+            on_release:
+                root.manager.current = 'ingredients'
+                root.manager.transition.direction = 'right'
+                root.press_back()
+
+<FullReceipt>:
+    FloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.52}
+            size_hint: 0.8, 1
+#            FitImage:
+#                id: img
+#                #size_hint_y: .45
+#                #source: 'Доширак.jpg'
+
+            ScrollView:
+                id:sv1
+                do_scroll_x: False
+                do_scroll_y: True
+                size_hint_y: 0.66
+                pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                always_overscroll: False
+                bar_margin: -34
+
+                GridLayout:
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    FitImage:
+                        id: img
+
+                    Label:
+                        id: title
+                        color: (0/255, 0/255, 0/255, 1)
+                        font_size: sp(25)
+                        #pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+                        text_size: self.width, None
+                        size_hint: 0.8, None
+                        halign: 'left'
+                        valign: 'middle'
+
+                    Label:
+                        color: (0/255, 0/255, 0/255, 1)
+                        id: description
+                        font_size: sp(15)
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                        size_hint: 1, None
+
+        BottomCard:
+            elevation: 5
+            radius: 0
+            pos_hint:{'center_x':0.5, 'center_y':0.03}
+            size_hint: 1, 0.12
+
+        MDFillRoundFlatButton:
+            id:back
+            font_size: sp(15)
+            size_hint: 0.5, 0.06
+            pos_hint:{'center_x':0.5, 'center_y':0.045}
+            text: 'Изменить рецепт'
+            md_bg_color: (250/255, 250/255, 180/255, 1)
+            theme_text_color: "Custom"
+            text_color:  1,0,0,1
+            on_release:
+                root.manager.current = 'receipts'
+                root.manager.transition.direction = 'up'
+                root.press_back()
